@@ -98,7 +98,7 @@ export default function ProductPage() {
 }
 
 const PRODUCT_VARIANT_FRAGMENT = `#graphql
-fragment ProductVariant on ProductVariant{
+fragment MyProductVariant on ProductVariant{
   availableForSale
   compareAtPrice{
     amount
@@ -126,7 +126,7 @@ fragment ProductVariant on ProductVariant{
 ` as const;
 
 const PRODUCT_FRAGMENT = `#graphql
-fragment Product on Product {
+fragment MyProduct on Product {
   id
   title
   handle
@@ -138,15 +138,15 @@ fragment Product on Product {
     optionValues{
       name
       firstSelectableVariant {
-        ...ProductVariant
+        ...MyProductVariant
       }
     }
   }
   selectedOrFirstAvailableVariant(selectedOptions:$selectedOptions,ignoreUnknownOptions: true, caseInsensitiveMatch: true){
-    ...ProductVariant
+    ...MyProductVariant
   }
     adjacentVariants (selectedOptions: $selectedOptions) {
-      ...ProductVariant
+      ...MyProductVariant
     }
      media(first: 10) {
       nodes {
@@ -192,7 +192,7 @@ const PRODUCT_QUERY = `#graphql
    $language: LanguageCode)
 @inContext(country: $country, language: $language) {
   product(handle: $handle) {
-   ...Product
+   ...MyProduct
   }
 }
   ${PRODUCT_FRAGMENT}
