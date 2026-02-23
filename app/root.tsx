@@ -17,6 +17,9 @@ import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import tailwindCss from './styles/tailwind.css?url';
 import {PageLayout} from './components/PageLayout';
+import CustomHeader from './components/CustomHeader';
+import CustomCart from './components/CustomCart';
+import { CartProvider } from './contexts/CartContext';
 
 export type RootLoader = typeof loader;
 
@@ -122,6 +125,7 @@ async function loadCriticalData({context}: Route.LoaderArgs) {
 function loadDeferredData({context}: Route.LoaderArgs) {
   const {storefront, customerAccount, cart} = context;
 
+
   // defer the footer query (below the fold)
   const footer = storefront
     .query(FOOTER_QUERY, {
@@ -146,10 +150,10 @@ export function Layout({children}: {children?: React.ReactNode}) {
   const nonce = useNonce();
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href={tailwindCss}></link>
         <link rel="stylesheet" href={resetStyles}></link>
         <link rel="stylesheet" href={appStyles}></link>
@@ -178,9 +182,13 @@ export default function App() {
       shop={data.shop}
       consent={data.consent}
     >
-      <PageLayout {...data}>
-        <Outlet />
-      </PageLayout>
+    <CartProvider>
+    <main>
+      <CustomHeader cartPromise={data.cart} />
+      <CustomCart cart={data.cart} />
+      <Outlet/>
+    </main>
+   </CartProvider>
     </Analytics.Provider>
   );
 }
