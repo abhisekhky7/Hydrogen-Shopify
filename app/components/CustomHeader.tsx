@@ -44,7 +44,9 @@ export default function CustomHeader({cartPromise}:{cartPromise:Promise<any>}) {
         <span onClick={toggleCart} id="cartToggle" className="cursor-pointer">
           Cart
         </span>
-       <Suspense fallback={<span>(0)</span>} >
+       <Suspense fallback={ <span className="rounded-full bg-black text-white text-[10px] font-semibold leading-none flex items-center justify-center w-4 h-4">
+             (0)
+            </span>} >
        <Await resolve={cartPromise}
        >
         {(cart)=>(

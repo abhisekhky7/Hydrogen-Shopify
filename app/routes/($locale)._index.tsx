@@ -60,7 +60,7 @@ export default function Index() {
         subheading="Frozen meal kits designed for flavour, convenience, and your fast-paced lifestyle. Less prep, more time for what matters."
         button={{
           label: "Shop Now",
-          link: "/collections"
+          link: "/my-collections"
         }}
       />
 
